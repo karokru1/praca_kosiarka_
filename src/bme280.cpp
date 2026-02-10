@@ -46,20 +46,20 @@ bool BME280::begin()
     i2cFd = open(device, O_RDWR);
     if (i2cFd < 0)
     {
-        std::cerr << "[BME280] Nie mozna otworzyc " << device << ": " << strerror(errno) << std::endl;
+        std::cerr << "BME280 Nie mozna otworzyc " << device << ": " << strerror(errno) << std::endl;
         return false;
     }
 
     if (ioctl(i2cFd, I2C_SLAVE, address) < 0)
     {
-        std::cerr << "[BME280] Nie mozna ustawic adresu I2C: " << strerror(errno) << std::endl;
+        std::cerr << "BME280 Nie mozna ustawic adresu: " << strerror(errno) << std::endl;
         return false;
     }
 
     uint8_t chipId = 0;
     if (!readRegisters(0xD0, &chipId, 1) || chipId != 0x60)
     {
-        std::cerr << "[BME280] Nieprawidlowy ID ukladu " << std::hex << static_cast<int>(chipId) << std::dec << std::endl;
+        std::cerr << "BME280 Nieprawidlowy ID ukladu " << std::hex << static_cast<int>(chipId) << std::dec << ")" << std::endl;
         return false;
     }
 
@@ -135,7 +135,7 @@ bool BME280::writeRegister(uint8_t reg, uint8_t value)
     uint8_t buffer[2] = {reg, value};
     if (write(i2cFd, buffer, 2) != 2)
     {
-        std::cerr << "[BME280] Blad zapisu rejestru 0x" << std::hex << static_cast<int>(reg) << std::dec << std::endl;
+        std::cerr << "BME280 Blad zapisu rejestru 0x" << std::hex << static_cast<int>(reg) << std::dec << std::endl;
         return false;
     }
     return true;
@@ -145,13 +145,13 @@ bool BME280::readRegisters(uint8_t reg, uint8_t* buffer, size_t length)
 {
     if (write(i2cFd, &reg, 1) != 1)
     {
-        std::cerr << "[BME280] Blad ustawienia rejestru 0x" << std::hex << static_cast<int>(reg) << std::dec << std::endl;
+        std::cerr << "BME280 Blad ustawienia rejestru 0x" << std::hex << static_cast<int>(reg) << std::dec << std::endl;
         return false;
     }
 
     if (read(i2cFd, buffer, length) != static_cast<ssize_t>(length))
     {
-        std::cerr << "[BME280] Blad odczytu z rejestru 0x" << std::hex << static_cast<int>(reg) << std::dec << std::endl;
+        std::cerr << "BME280 Blad odczytu z rejestru 0x" << std::hex << static_cast<int>(reg) << std::dec << std::endl;
         return false;
     }
 
@@ -195,7 +195,7 @@ float BME280::readTemperature()
 {
     if (!initialized)
     {
-        std::cerr << "[BME280] Urzadzenie nie zostalo zainicjalizowane" << std::endl;
+        std::cerr << "BME280 Nie zostalo zainicjalizowane" << std::endl;
         return -100.0f;
     }
 
@@ -217,7 +217,7 @@ float BME280::readPressure()
 {
     if (!initialized)
     {
-        std::cerr << "[BME280] Urzadzenie nie zostalo zainicjalizowane" << std::endl;
+        std::cerr << "BME280 Nie zostalo zainicjalizowane" << std::endl;
         return -1.0f;
     }
 
@@ -250,14 +250,14 @@ float BME280::readPressure()
     var2 = (static_cast<int64_t>(dig_P8) * p) >> 19;
     p = ((p + var1 + var2) >> 8) + (static_cast<int64_t>(dig_P7) << 4);
 
-    return static_cast<float>(p) / 25600.0f;
+    return static_cast<float>(p) / 25600.0f; // hPa
 }
 
 float BME280::readHumidity()
 {
     if (!initialized)
     {
-        std::cerr << "[BME280] Urzadzenie nie zostalo zainicjalizowane" << std::endl;
+        std::cerr << "BME280 Nie zostalo zainicjalizowane" << std::endl;
         return -1.0f;
     }
 

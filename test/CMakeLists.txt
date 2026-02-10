@@ -1,7 +1,7 @@
 include(GoogleTest)
 include(CTest)
 
-set(TEST_SOURCES
+set(TEST
     UserExpectationTest.cpp
     DecisionTest.cpp
     LoggerTest.cpp
@@ -13,7 +13,7 @@ set(TEST_SOURCES
     ../src/RainSensor.cpp
 )
 
-add_executable(UserExpectationTest ${TEST_SOURCES} doubles/bh1750.cpp doubles/mcp3008.cpp)
+add_executable(UserExpectationTest ${TEST} doubles/bh1750.cpp doubles/mcp3008.cpp)
 target_include_directories(UserExpectationTest PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/doubles ${CMAKE_SOURCE_DIR}/src)
 target_link_libraries(UserExpectationTest PRIVATE userData gtest_main)
 

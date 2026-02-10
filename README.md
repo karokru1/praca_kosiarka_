@@ -4,9 +4,9 @@
 ```
 mkdir build
 cd build
-cmake -G "Unix Makefiles" ..
+cmake ..
 make
-./run.exe
+./cutGrass
 ```
 
 ## How to run tests:

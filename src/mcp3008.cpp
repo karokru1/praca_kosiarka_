@@ -25,7 +25,7 @@ bool MCP3008::begin()
     spiFd = open(device, O_RDWR);
     if (spiFd < 0) 
     {
-        std::cerr << "[MCP3008] Błąd otwarcia SPI: " << strerror(errno) << std::endl;
+        std::cerr << "MCP3008 Blad otwarcia " << std::endl;
         return false;
     }
 
@@ -36,7 +36,7 @@ bool MCP3008::begin()
         ioctl(spiFd, SPI_IOC_WR_BITS_PER_WORD, &bits) < 0 ||
         ioctl(spiFd, SPI_IOC_WR_MAX_SPEED_HZ, &speedHz) < 0) 
     {
-        std::cerr << "[MCP3008] Błąd konfiguracji SPI" << std::endl;
+        std::cerr << "MCP3008 Blad konfiguracji" << std::endl;
         return false;
     }
 
@@ -67,7 +67,7 @@ int MCP3008::readChannel(int channel)
 
     if (ioctl(spiFd, SPI_IOC_MESSAGE(1), &tr) < 0) 
     {
-        std::cerr << "[MCP3008] Blad transferu SPI" << std::endl;
+        std::cerr << "MCP3008 Blad" << std::endl;
         return -1;
     }
 
