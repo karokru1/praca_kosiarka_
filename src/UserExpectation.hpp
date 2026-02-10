@@ -10,7 +10,7 @@ public:
     float getMaxGrassHeight();
 
 private:
-   float m_grassHeight = 0.f;
+   float m_grassHeight = 7.5f;
    float m_minGrassHeight = 5.f;
    float m_maxGrassHeight = 15.f;
 };

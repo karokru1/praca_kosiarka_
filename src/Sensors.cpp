@@ -19,12 +19,11 @@ Sensors::Sensors(int soilChannel, int rainChannel, int rainThreshold)
 
 bool Sensors::checkInitialized(const char* caller) const
 {
-    if (initialized) 
-    {
+    if (initialized) {
         return true;
     }
 
-    std::cerr << "[Sensors] " << caller << " wywolane przed init()" << std::endl;
+    std::cerr << "" << caller << " wywolane przed init()" << std::endl;
     return false;
 }
 
@@ -32,21 +31,18 @@ bool Sensors::init()
 {
     initialized = false;
 
-    if (!bme280.begin()) 
-    {
-        std::cerr << "[Sensors] Blad inicjalizacji BME280" << std::endl;
+    if (!bme280.begin()) {
+        std::cerr << "Blad inicjalizacji BME280" << std::endl;
         return false;
     }
 
-    if (!adc.begin()) 
-    {
-        std::cerr << "[Sensors] Blad inicjalizacji MCP3008" << std::endl;
+    if (!adc.begin()) {
+        std::cerr << "Blad inicjalizacji MCP3008" << std::endl;
         return false;
     }
 
-    if (!light.init()) 
-    {
-        std::cerr << "[Sensors] Blad inicjalizacji BH1750" << std::endl;
+    if (!light.init()) {
+        std::cerr << "Blad inicjalizacji BH1750" << std::endl;
         return false;
     }
 
@@ -56,8 +52,7 @@ bool Sensors::init()
 
 float Sensors::getLightLevel()
 {
-    if (!checkInitialized("getLightLevel")) 
-    {
+    if (!checkInitialized("getLightLevel")) {
         return 0.0f;
     }
     return light.read();
@@ -65,8 +60,7 @@ float Sensors::getLightLevel()
 
 float Sensors::getTemperature()
 {
-    if (!checkInitialized("getTemperature")) 
-    {
+    if (!checkInitialized("getTemperature")) {
         return 0.0f;
     }
     return temp.read();
@@ -74,8 +68,7 @@ float Sensors::getTemperature()
 
 float Sensors::getHumidity()
 {
-    if (!checkInitialized("getHumidity")) 
-    {
+    if (!checkInitialized("getHumidity")) {
         return 0.0f;
     }
     return humid.read();
@@ -83,8 +76,7 @@ float Sensors::getHumidity()
 
 float Sensors::getPressure()
 {
-    if (!checkInitialized("getPressure")) 
-    {
+    if (!checkInitialized("getPressure")) {
         return 0.0f;
     }
     return press.read();
@@ -92,8 +84,7 @@ float Sensors::getPressure()
 
 int Sensors::getSoilMoisture()
 {
-    if (!checkInitialized("getSoilMoisture")) 
-    {
+    if (!checkInitialized("getSoilMoisture")) {
         return 0;
     }
     return soil.read();
@@ -101,8 +92,7 @@ int Sensors::getSoilMoisture()
 
 bool Sensors::isRaining()
 {
-    if (!checkInitialized("isRaining")) 
-    {
+    if (!checkInitialized("isRaining")) {
         return false;
     }
     return rain.isRaining();
@@ -110,5 +100,12 @@ bool Sensors::isRaining()
 
 SensorReadings Sensors::readAll()
 {
-    return {getTemperature(), getHumidity(), getPressure(), getLightLevel(), static_cast<float>(getSoilMoisture()), -1.0f, isRaining()};
+    return {
+        getTemperature(),
+        getHumidity(),
+        getPressure(),
+        getLightLevel(),
+        static_cast<float>(getSoilMoisture()),
+        -1.0f,
+        isRaining()};
 }

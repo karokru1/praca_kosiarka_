@@ -23,9 +23,10 @@ TEST(UserExpectationTest, acceptsCommaAsDecimalSeparator)
     std::istringstream input("7,5\n");
     std::streambuf* origCin = std::cin.rdbuf();
     std::cin.rdbuf(input.rdbuf());
-    float result = userData.setHeight(0);
-    std::cin.rdbuf(origCin);
 
+    float result = userData.setHeight(0);
+
+    std::cin.rdbuf(origCin);
     EXPECT_FLOAT_EQ(result, 7.5f);
     EXPECT_FLOAT_EQ(userData.getHeight(), 7.5f);
 }
@@ -36,9 +37,10 @@ TEST(UserExpectationTest, retriesOnNonNumericInput)
     std::istringstream input("abc\n9\n");
     std::streambuf* origCin = std::cin.rdbuf();
     std::cin.rdbuf(input.rdbuf());
-    float result = userData.setHeight(0);
-    std::cin.rdbuf(origCin);
 
+    float result = userData.setHeight(0);
+
+    std::cin.rdbuf(origCin);
     EXPECT_FLOAT_EQ(result, 9.0f);
     EXPECT_FLOAT_EQ(userData.getHeight(), 9.0f);
 }
@@ -49,9 +51,10 @@ TEST(UserExpectationTest, retriesOnOutOfRangeInput)
     std::istringstream input("20\n8\n");
     std::streambuf* origCin = std::cin.rdbuf();
     std::cin.rdbuf(input.rdbuf());
-    float result = userData.setHeight(0)
-    std::cin.rdbuf(origCin);
 
+    float result = userData.setHeight(0);
+
+    std::cin.rdbuf(origCin);
     EXPECT_FLOAT_EQ(result, 8.0f);
     EXPECT_FLOAT_EQ(userData.getHeight(), 8.0f);
 }
@@ -70,9 +73,10 @@ TEST(UserExpectationTest, returnsCurrentHeightOnEof)
     std::istringstream emptyInput("");
     std::streambuf* origCin = std::cin.rdbuf();
     std::cin.rdbuf(emptyInput.rdbuf());
-    float result = userData.setHeight(0);
-    std::cin.rdbuf(origCin);
 
+    float result = userData.setHeight(0);
+
+    std::cin.rdbuf(origCin);
     EXPECT_FLOAT_EQ(result, 10.0f);
     EXPECT_FLOAT_EQ(userData.getHeight(), 10.0f);
 }

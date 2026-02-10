@@ -20,8 +20,7 @@ TEST(LightSensorTest, readsStubbedValue)
 {
     BH1750::setNext(123.4f);
     LightSensor sensor;
-
-    EXPECT_TRUE(sensor.init());
+    ASSERT_TRUE(sensor.init());
     EXPECT_FLOAT_EQ(sensor.read(), 123.4f);
 }
 
@@ -30,7 +29,6 @@ TEST(SoilMoistureSensorTest, readsFromStubAdc)
     MCP3008::setChannelValue(0, 512);
     MCP3008 adc;
     SoilMoistureSensor soil(adc, 0);
-
     EXPECT_EQ(soil.read(), 512);
 }
 
@@ -39,10 +37,8 @@ TEST(RainSensorTest, detectsRainWhenBelowThreshold)
     MCP3008::setChannelValue(1, 200);
     MCP3008 adc;
     RainSensor rain(adc, 1, 400);
-
     EXPECT_TRUE(rain.isRaining());
 
     MCP3008::setChannelValue(1, 800);
-    
     EXPECT_FALSE(rain.isRaining());
 }

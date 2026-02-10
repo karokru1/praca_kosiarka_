@@ -26,16 +26,19 @@ public:
 
 private:
     bool checkInitialized(const char* caller) const;
+
     bme280Interface bme280;
     MCP3008 adc;
     int soilChannel;
     int rainChannel;
     int rainThreshold;
+
     TemperatureSensor temp;
     HumiditySensor humid;
     PressureSensor press;
     SoilMoistureSensor soil;
     RainSensor rain;
+
     LightSensor light;
     bool initialized;
 };

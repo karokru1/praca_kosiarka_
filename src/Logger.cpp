@@ -21,13 +21,12 @@ bool Logger::init()
     if (!db) {
         if (sqlite3_open(dbPath.c_str(), reinterpret_cast<sqlite3**>(&db)) != SQLITE_OK)
         {
-            std::cerr << "[Logger] Blad otwarcia bazy danych: " << sqlite3_errmsg(static_cast<sqlite3*>(db)) << std::endl;
+            std::cerr << "Blad otwarcia bazy danych: " << sqlite3_errmsg(static_cast<sqlite3*>(db)) << std::endl;
             return false;
         }
     }
 
-    if (!execute("PRAGMA journal_mode=WAL;") or !execute("PRAGMA synchronous=NORMAL;")) 
-    {
+    if (!execute("PRAGMA journal_mode=WAL;") or !execute("PRAGMA synchronous=NORMAL;")) {
         return false;
     }
 
@@ -54,9 +53,8 @@ bool Logger::init()
 
 bool Logger::logReading(const SensorReadings& reading)
 {
-    if (!db) 
-    {
-        std::cerr << "[Logger] Brak otwartej bazy danych" << std::endl;
+    if (!db) {
+        std::cerr << "Brak otwartej bazy danych" << std::endl;
         return false;
     }
 
@@ -66,9 +64,8 @@ bool Logger::logReading(const SensorReadings& reading)
     )SQL";
 
     sqlite3_stmt* stmt = nullptr;
-    if (sqlite3_prepare_v2(static_cast<sqlite3*>(db), sql, -1, &stmt, nullptr) != SQLITE_OK) 
-    {
-        std::cerr << "[Logger] SQLite prepare blad: " << sqlite3_errmsg(static_cast<sqlite3*>(db)) << std::endl;
+    if (sqlite3_prepare_v2(static_cast<sqlite3*>(db), sql, -1, &stmt, nullptr) != SQLITE_OK) {
+        std::cerr << "SQLite prepare blad: " << sqlite3_errmsg(static_cast<sqlite3*>(db)) << std::endl;
         return false;
     }
 
@@ -81,9 +78,8 @@ bool Logger::logReading(const SensorReadings& reading)
     sqlite3_bind_int   (stmt, 7, reading.rainDetected ? 1 : 0);
 
     bool ok = true;
-    if (sqlite3_step(stmt) != SQLITE_DONE) 
-    {
-        std::cerr << "[Logger] SQLite step blad: " << sqlite3_errmsg(static_cast<sqlite3*>(db)) << std::endl;
+    if (sqlite3_step(stmt) != SQLITE_DONE) {
+        std::cerr << "SQLite blad: " << sqlite3_errmsg(static_cast<sqlite3*>(db)) << std::endl;
         ok = false;
     }
 
@@ -96,7 +92,7 @@ bool Logger::execute(const std::string& sql)
     char* errMsg = nullptr;
     if (sqlite3_exec(static_cast<sqlite3*>(db), sql.c_str(), nullptr, nullptr, &errMsg) != SQLITE_OK)
     {
-        std::cerr << "[Logger] SQLite blad: " << errMsg << std::endl;
+        std::cerr << "SQLite blad: " << errMsg << std::endl;
         sqlite3_free(errMsg);
         return false;
     }

@@ -10,23 +10,18 @@ public:
     explicit MCP3008(const char* = "/dev/spidev0.0", uint32_t = 1000000) {}
     ~MCP3008() = default;
 
-    bool begin() 
-    { 
-        return true; 
-    }
+    bool begin() { return true; }
 
     static void setChannelValue(int channel, int value)
     {
-        if (channel >= 0 && channel < 8) 
-        {
+        if (channel >= 0 && channel < 8) {
             channelValues[channel] = value;
         }
     }
 
     int readChannel(int channel)
     {
-        if (channel < 0 || channel >= 8) 
-        {
+        if (channel < 0 || channel >= 8) {
             return -1;
         }
         return channelValues[channel];

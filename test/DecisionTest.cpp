@@ -83,7 +83,7 @@ TEST(DecisionTest, blocksWhenTemperatureTooHigh)
     EXPECT_FALSE(decision.shouldCutGrass(sensor.readAll()));
 }
 
-TEST(DecisionTest, allowsCuttingWhenGrassAtMaxThreshold)
+TEST(DecisionTest, AllowsCuttingWhenGrassAtMaxThreshold)
 {
     Decision decision;
     MockSensorProvider sensor;
